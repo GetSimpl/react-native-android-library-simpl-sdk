@@ -16,9 +16,14 @@ There are many ways to do this, here's the way I do it:
         ```xml
         ...
 
+        repositories {
+            maven { url "http://maven.getsimpl.com"}
+        }
+
         dependencies {
             ...
             compile project(':react-native-android-library-simpl-sdk')
+            compile "com.simpl.android:sdk:1.1.+"
         }
         ```
     * Add the following to `android/app/src/main/java/**/MainApplication.java`:
