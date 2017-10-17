@@ -4,7 +4,7 @@ This project serves as a SimplSdk wrapper to create custom React Native native S
 ## Installing it as a library in your main project
 There are many ways to do this, here's the way I do it:
 
-2. Do `npm install --save git+https://github.com/MrToph/react-native-android-library-boilerplate.git` in your main project.
+2. Do `npm install --save git+https://github.com/GetSimpl/react-native-android-library-simpl-sdk` in your main project.
 3. Link the library:
     * Add the following to `android/settings.gradle`:
         ```
