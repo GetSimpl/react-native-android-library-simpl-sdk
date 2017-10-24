@@ -47,7 +47,7 @@ There are many ways to do this, here's the way I do it:
     ```javascript
     import SimplSdk from 'react-native-android-library-simpl-sdk'
     //TO check either user is approved or not
-    SimplSdk.isApproved('cc253a6252f4472dee9bd3539d594c10', '9538651315', 'niraj@getsimpl.com',
+    SimplSdk.isApproved('cc253a6252f4472dee9bd3539d594c10', '9538651315', 'niraj@getsimpl.com', true,/*To test in sandbox mode*/
                           (result) => console.log("User approved: "+result),
                           (approvalError) => console.log("User approval error: "+approvalError));
 

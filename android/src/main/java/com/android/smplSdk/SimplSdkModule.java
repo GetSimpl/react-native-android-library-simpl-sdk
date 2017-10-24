@@ -26,11 +26,12 @@ public class SimplSdkModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void isApproved(final String merchantId, final String mobileNumber, final String emailId,
+  public void isApproved(final String merchantId, final String mobileNumber, final String emailId, final boolean isSandbox,
                          final Callback successCallback, final Callback errorCallback) {
     Simpl.init(getReactApplicationContext(), merchantId);
     Log.d(TAG, "isApproved(): merchantId: "+merchantId+" mobileNumber: "+mobileNumber+" emailId: "+emailId);
-    Simpl.getInstance().runInStagingMode();
+    if (isSandbox)
+      Simpl.getInstance().runInSandboxMode();
     Simpl.getInstance().isUserApproved(mobileNumber, emailId)
             .execute(new SimplUserApprovalListenerV2() {
               @Override
