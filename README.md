@@ -52,7 +52,7 @@ There are many ways to do this, here's the way I do it:
                           (approvalError) => console.log("User approval error: "+approvalError));
 
     //Authorise the transaction
-    SimplSdk.authorizeTransaction(10000, (transactionToken) => console.log("Transaction Token: "+transactionToken),
+    SimplSdk.authorizeTransaction(10000, ,"abcd1234"/*order_id*/, (transactionToken) => console.log("Transaction Token: "+transactionToken),
                                             (authError) => console.log("Authentication error: "+authError));
 
     ```
