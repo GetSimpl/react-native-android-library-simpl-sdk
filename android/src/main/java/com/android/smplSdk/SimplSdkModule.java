@@ -16,62 +16,63 @@ import com.simpl.android.sdk.SimplUserApprovalListenerV2;
 public class SimplSdkModule extends ReactContextBaseJavaModule {
     private static final String TAG = SimplSdkModule.class.getSimpleName();
 
-  public SimplSdkModule(ReactApplicationContext reactContext) {
-    super(reactContext);
-  }
+    public SimplSdkModule(ReactApplicationContext reactContext) {
+        super(reactContext);
+    }
 
-  @Override
-  public String getName() {
-    return "SimplSdk";
-  }
+    @Override
+    public String getName() {
+        return "SimplSdk";
+    }
 
-  @ReactMethod
-  public void isApproved(final String merchantId, final String mobileNumber, final String emailId, final boolean isSandbox,
-                         final Callback successCallback, final Callback errorCallback) {
-    Simpl.init(getReactApplicationContext(), merchantId);
-    Log.d(TAG, "isApproved(): merchantId: "+merchantId+" mobileNumber: "+mobileNumber+" emailId: "+emailId);
-    if (isSandbox)
-      Simpl.getInstance().runInSandboxMode();
-    Simpl.getInstance().isUserApproved(mobileNumber, emailId)
-            .execute(new SimplUserApprovalListenerV2() {
-              @Override
-              public void onSuccess(final boolean b, String s, boolean b1) {
-                  successCallback.invoke(b);
-                  UiThreadUtil.runOnUiThread(new Runnable() {
-                      @Override
-                      public void run() {
-                          Toast.makeText(getReactApplicationContext(), "User Approved : "+b, Toast.LENGTH_LONG).show();
-                      }
-                  });
-              }
+    @ReactMethod
+    public void isApproved(final String merchantId, final String mobileNumber, final String emailId, final boolean isSandbox,
+                           final Callback successCallback, final Callback errorCallback) {
+        Simpl.init(getReactApplicationContext(), merchantId);
+        Log.d(TAG, "isApproved(): merchantId: " + merchantId + " mobileNumber: " + mobileNumber + " emailId: " + emailId);
+        if (isSandbox)
+            Simpl.getInstance().runInSandboxMode();
+        Simpl.getInstance().isUserApproved(mobileNumber, emailId)
+                .execute(new SimplUserApprovalListenerV2() {
+                    @Override
+                    public void onSuccess(final boolean b, String s, boolean b1) {
+                        successCallback.invoke(b);
+                        UiThreadUtil.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getReactApplicationContext(), "User Approved : " + b, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
 
-              @Override
-              public void onError(Throwable throwable) {
-                  errorCallback.invoke(throwable.getMessage());
-                  UiThreadUtil.runOnUiThread(new Runnable() {
-                      @Override
-                      public void run() {
-                        Toast.makeText(getReactApplicationContext(), "Error in User Approval :", Toast.LENGTH_LONG).show();
-                      }
-                  });
-              }
-            });
-  }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        errorCallback.invoke(throwable.getMessage());
+                        UiThreadUtil.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getReactApplicationContext(), "Error in User Approval :", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+    }
 
-  @ReactMethod
-    public void authorizeTransaction(int transactionAmountInPaise, final Callback successCallback, final Callback errorCallback) {
-      Simpl.getInstance().authorizeTransaction(getReactApplicationContext(), transactionAmountInPaise)
-              .execute(new SimplAuthorizeTransactionListener() {
-                  @Override
-                  public void onSuccess(SimplTransactionAuthorization simplTransactionAuthorization) {
-                      successCallback.invoke(simplTransactionAuthorization.getTransactionToken());
-                  }
+    @ReactMethod
+    public void authorizeTransaction(final int transactionAmountInPaise, final String orderId, final Callback successCallback, final Callback errorCallback) {
+        Simpl.getInstance().authorizeTransaction(getReactApplicationContext(), transactionAmountInPaise)
+                .addParam("order_id", orderId)
+                .execute(new SimplAuthorizeTransactionListener() {
+                    @Override
+                    public void onSuccess(SimplTransactionAuthorization simplTransactionAuthorization) {
+                        successCallback.invoke(simplTransactionAuthorization.getTransactionToken());
+                    }
 
-                  @Override
-                  public void onError(Throwable throwable) {
-                      errorCallback.invoke(throwable.getMessage());
-                  }
-              });
-  }
+                    @Override
+                    public void onError(Throwable throwable) {
+                        errorCallback.invoke(throwable.getMessage());
+                    }
+                });
+    }
 
 }
