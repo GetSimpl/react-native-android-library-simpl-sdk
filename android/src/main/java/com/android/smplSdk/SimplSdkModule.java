@@ -33,28 +33,16 @@ public class SimplSdkModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "isApproved(): merchantId: " + merchantId + " mobileNumber: " + mobileNumber + " emailId: " + emailId);
         if (isSandbox)
             Simpl.getInstance().runInSandboxMode();
-        Simpl.getInstance().isUserApproved(new SimplUser(mobileNumber, emailId))
+        Simpl.getInstance().isUserApproved(new SimplUser(emailId, mobileNumber))
                 .execute(new SimplUserApprovalListenerV2() {
                     @Override
                     public void onSuccess(final boolean b, String s, boolean b1) {
                         successCallback.invoke(b);
-                        UiThreadUtil.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getReactApplicationContext(), "User Approved : " + b, Toast.LENGTH_LONG).show();
-                            }
-                        });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         errorCallback.invoke(throwable.getMessage());
-                        UiThreadUtil.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getReactApplicationContext(), "Error in User Approval :", Toast.LENGTH_LONG).show();
-                            }
-                        });
                     }
                 });
     }
