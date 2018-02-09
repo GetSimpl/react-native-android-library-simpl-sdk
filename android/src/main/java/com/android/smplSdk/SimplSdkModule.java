@@ -11,6 +11,7 @@ import com.facebook.react.bridge.UiThreadUtil;
 import com.simpl.android.sdk.Simpl;
 import com.simpl.android.sdk.SimplAuthorizeTransactionListener;
 import com.simpl.android.sdk.SimplTransactionAuthorization;
+import com.simpl.android.sdk.SimplUser;
 import com.simpl.android.sdk.SimplUserApprovalListenerV2;
 
 public class SimplSdkModule extends ReactContextBaseJavaModule {
@@ -32,7 +33,7 @@ public class SimplSdkModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "isApproved(): merchantId: " + merchantId + " mobileNumber: " + mobileNumber + " emailId: " + emailId);
         if (isSandbox)
             Simpl.getInstance().runInSandboxMode();
-        Simpl.getInstance().isUserApproved(mobileNumber, emailId)
+        Simpl.getInstance().isUserApproved(new SimplUser(mobileNumber, emailId))
                 .execute(new SimplUserApprovalListenerV2() {
                     @Override
                     public void onSuccess(final boolean b, String s, boolean b1) {
