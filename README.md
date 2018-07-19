@@ -48,15 +48,32 @@ There are many ways to do this, here's the way I do it:
 4. Simply `import/require` it by the name defined in your library's `package.json`:
 
     ```javascript
-    import SimplSdk from 'react-native-android-library-simpl-sdk'
+   import SimplSdk from 'react-native-android-library-simpl-sdk'
     //TO check either user is approved or not
     SimplSdk.isApproved('cc253a6252f4472dee9bd3539d594c10', '9538651315', 'niraj@getsimpl.com', true,/*To test in sandbox mode*/
-                          (result) => console.log("User approved: "+result),
+                          (result) => showOrHideSimplButton(result),
                           (approvalError) => console.log("User approval error: "+approvalError));
 
-    //Authorise the transaction
-    SimplSdk.authorizeTransaction(10000, ,"abcd1234"/*order_id*/, (transactionToken) => console.log("Transaction Token: "+transactionToken),
+
+    showOrHideSimplButton = (result) => {
+      if(result === true) {
+        //Show Simpl button
+      } else {
+        //Hide Simpl button
+      }
+    }
+
+    <Button
+      onPress={authorizeTransaction}
+      title="Simpl Pay"
+    />
+
+    authorizeTransaction = () => {
+      //Authorise the transaction
+      SimplSdk.authorizeTransaction(10000, ,"abcd1234"/*order_id*/, (transactionToken) => console.log("Transaction Token: "+transactionToken),
                                             (authError) => console.log("Authentication error: "+authError));
+    }
+
 
     ```
 5. You can test and develop your library by importing the `node_modules` library into **Android Studio** if you don't want to install it from _git_ all the time.
