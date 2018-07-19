@@ -1,3 +1,6 @@
+# DEPRECATED
+Please use https://www.npmjs.com/package/react-native-simpl-sdk which supports both Android and iOS
+
 ## React Native Android Library for SimplSdk
 This project serves as a SimplSdk wrapper to create custom React Native native SimplSDK modules that can later be installed through NPM and easily be used in production.
 
